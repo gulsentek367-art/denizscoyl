@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Oyuncu Başvurusu</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- HERO -->
+    <section class="hero">
+
+        <div class="hero-overlay"></div>
+
+        <div class="hero-content">
+
+            <span class="small-title">CASTING PLATFORM</span>
+
+            <h1>Yeni Yüzler<br>Arıyoruz</h1>
+
+            <p>
+                Oyunculuk başvurunuzu oluşturun ve
+                yeteneklerinizi bizimle paylaşın.
+            </p>
+
+            <a href="#basvuru" class="hero-button">
+                Başvuruya Başla
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- BİLGİ -->
+    <section class="intro">
+
+        <span class="section-label">
+            OYUNCU BAŞVURUSU
+        </span>
+
+        <h2>
+            Kendinizi Tanıtın
+        </h2>
+
+        <p>
+            Aşağıdaki formu eksiksiz doldurarak
+            oyuncu başvurunuzu oluşturabilirsiniz.
+        </p>
+
+    </section>
+
+
+    <!-- BAŞVURU -->
+    <section class="application-section" id="basvuru">
+
+        <div class="form-card">
+
+            <div class="form-header">
+
+                <span>01</span>
+
+                <div>
+                    <h2>Başvuru Formu</h2>
+
+                    <p>
+                        Bilgilerinizi eksiksiz doldurun.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <form id="applicationForm">
+
+
+                <!-- KİŞİSEL BİLGİLER -->
+
+                <div class="form-title">
+                    Kişisel Bilgiler
+                </div>
+
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <label for="name">
+                            Ad Soyad
+                        </label>
+
+                        <input
+                            type="text"
+                            id="name"
+                            placeholder="Adınız ve soyadınız"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="birthDate">
+                            Doğum Tarihi
+                        </label>
+
+                        <input
+                            type="date"
+                            id="birthDate"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <label for="age">
+                            Yaş
+                        </label>
+
+                        <input
+                            type="number"
+                            id="age"
+                            placeholder="Yaşınız"
+                            min="1"
+                            max="100"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="gender">
+                            Cinsiyet
+                        </label>
+
+                        <select id="gender" required>
+
+                            <option value="">
+                                Seçiniz
+                            </option>
+
+                            <option value="Kadın">
+                                Kadın
+                            </option>
+
+                            <option value="Erkek">
+                                Erkek
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="city">
+                        Yaşadığınız Şehir
+                    </label>
+
+                    <input
+                        type="text"
+                        id="city"
+                        placeholder="Şehir"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- İLETİŞİM -->
+
+                <div class="form-title">
+                    İletişim Bilgileri
+                </div>
+
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <label for="phone">
+                            Telefon
+                        </label>
+
+                        <input
+                            type="tel"
+                            id="phone"
+                            placeholder="Telefon numaranız"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="email">
+                            E-posta
+                        </label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            placeholder="E-posta adresiniz"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- FİZİKSEL BİLGİLER -->
+
+                <div class="form-title">
+                    Fiziksel Bilgiler
+                </div>
+
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <label for="height">
+                            Boy
+                        </label>
+
+                        <input
+                            type="number"
+                            id="height"
+                            placeholder="Örn. 175 cm"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="weight">
+                            Kilo
+                        </label>
+
+                        <input
+                            type="number"
+                            id="weight"
+                            placeholder="Örn. 70 kg"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- OYUNCULUK -->
+
+                <div class="form-title">
+                    Oyunculuk Bilgileri
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="experience">
+                        Oyunculuk Deneyimi
+                    </label>
+
+                    <select id="experience" required>
+
+                        <option value="">
+                            Deneyiminizi seçiniz
+                        </option>
+
+                        <option value="Yok">
+                            Deneyimim yok
+                        </option>
+
+                        <option value="Amatör">
+                            Amatör deneyim
+                        </option>
+
+                        <option value="Profesyonel">
+                            Profesyonel deneyim
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="about">
+                        Kendinizi Tanıtın
+                    </label>
+
+                    <textarea
+                        id="about"
+                        rows="7"
+                        placeholder="Kendinizden, oyunculuk deneyiminizden ve yeteneklerinizden bahsedin..."
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <!-- DOSYALAR -->
+
+                <div class="form-title">
+                    Fotoğraf ve Video
+                </div>
+
+
+                <div class="upload-box">
+
+                    <label for="photo">
+                        <strong>Fotoğrafınızı yükleyin</strong>
+
+                        <span>
+                            JPG, PNG veya WEBP
+                        </span>
+                    </label>
+
+                    <input
+                        type="file"
+                        id="photo"
+                        accept="image/*"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="upload-box">
+
+                    <label for="video">
+                        <strong>Tanıtım videonuzu yükleyin</strong>
+
+                        <span>
+                            MP4, MOV veya benzeri video formatları
+                        </span>
+                    </label>
+
+                    <input
+                        type="file"
+                        id="video"
+                        accept="video/*"
+                    >
+
+                </div>
+
+
+                <!-- ONAY -->
+
+                <div class="consent">
+
+                    <label>
+
+                        <input
+                            type="checkbox"
+                            required
+                        >
+
+                        Başvuru bilgilerimin değerlendirme
+                        amacıyla kullanılmasını kabul ediyorum.
+
+                    </label>
+
+                </div>
+
+
+                <!-- BUTON -->
+
+                <button
+                    type="submit"
+                    class="submit-button"
+                >
+
+                    Başvuruyu Gönder
+
+                    <span>→</span>
+
+                </button>
+
+
+            </form>
+
+
+            <!-- BAŞARI -->
+
+            <div
+                id="successMessage"
+                class="success-message"
+                style="display: none;"
+            ></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <div>
+            CASTING PLATFORM
+        </div>
+
+        <p>
+            © 2026 Oyuncu Başvuru Platformu
+        </p>
+
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

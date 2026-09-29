@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Oyuncu Yönetim Paneli</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            font-family: Arial, sans-serif;
+
+            background: #f4f4f4;
+
+            color: #171717;
+        }
+
+
+        header {
+
+            background: #111;
+
+            color: white;
+
+            padding: 30px;
+
+            text-align: center;
+        }
+
+
+        header h1 {
+
+            margin: 0 0 8px;
+        }
+
+
+        .stats {
+
+            max-width: 1100px;
+
+            margin: 30px auto 20px;
+
+            width: 90%;
+
+            display: flex;
+
+            gap: 15px;
+        }
+
+
+        .stat {
+
+            background: white;
+
+            padding: 20px;
+
+            border-radius: 12px;
+
+            flex: 1;
+
+            box-shadow: 0 5px 20px rgba(0,0,0,.06);
+        }
+
+
+        .stat strong {
+
+            display: block;
+
+            font-size: 30px;
+
+            margin-top: 5px;
+        }
+
+
+        .search {
+
+            max-width: 1100px;
+
+            width: 90%;
+
+            margin: 20px auto;
+        }
+
+
+        .search input {
+
+            width: 100%;
+
+            padding: 16px;
+
+            border: 1px solid #ddd;
+
+            border-radius: 10px;
+
+            font-size: 16px;
+
+            outline: none;
+        }
+
+
+        .container {
+
+            width: 90%;
+
+            max-width: 1100px;
+
+            margin: 25px auto 60px;
+        }
+
+
+        .application {
+
+            background: white;
+
+            border-radius: 15px;
+
+            padding: 25px;
+
+            margin-bottom: 20px;
+
+            box-shadow: 0 5px 25px rgba(0,0,0,.06);
+
+            display: flex;
+
+            gap: 25px;
+
+            align-items: flex-start;
+        }
+
+
+        .application-photo {
+
+            width: 150px;
+
+            height: 150px;
+
+            object-fit: cover;
+
+            border-radius: 12px;
+
+            flex-shrink: 0;
+        }
+
+
+        .application-info {
+
+            flex: 1;
+        }
+
+
+        .application h2 {
+
+            margin-top: 0;
+        }
+
+
+        .application p {
+
+            margin: 7px 0;
+
+            color: #555;
+        }
+
+
+        .buttons {
+
+            display: flex;
+
+            gap: 10px;
+
+            margin-top: 18px;
+        }
+
+
+        button {
+
+            border: none;
+
+            padding: 11px 16px;
+
+            border-radius: 7px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+        }
+
+
+        .detail-button {
+
+            background: #111;
+
+            color: white;
+        }
+
+
+        .delete-button {
+
+            background: #eee;
+
+            color: #111;
+        }
+
+
+        .empty {
+
+            text-align: center;
+
+            padding: 60px;
+
+            background: white;
+
+            border-radius: 15px;
+        }
+
+
+        .modal {
+
+            display: none;
+
+            position: fixed;
+
+            inset: 0;
+
+            background: rgba(0,0,0,.7);
+
+            z-index: 1000;
+
+            padding: 30px;
+
+            overflow-y: auto;
+        }
+
+
+        .modal-content {
+
+            max-width: 700px;
+
+            margin: 40px auto;
+
+            background: white;
+
+            border-radius: 15px;
+
+            padding: 30px;
+
+            position: relative;
+        }
+
+
+        .close {
+
+            position: absolute;
+
+            right: 20px;
+
+            top: 15px;
+
+            font-size: 30px;
+
+            cursor: pointer;
+        }
+
+
+        .detail-photo {
+
+            width: 200px;
+
+            height: 200px;
+
+            object-fit: cover;
+
+            border-radius: 12px;
+
+            margin-bottom: 20px;
+        }
+
+
+        @media (max-width: 700px) {
+
+            .application {
+
+                flex-direction: column;
+            }
+
+            .stats {
+
+                flex-direction: column;
+            }
+
+            .application-photo {
+
+                width: 100%;
+
+                height: 250px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <h1>Yönetici Paneli</h1>
+
+    <p>Oyuncu Başvuruları</p>
+
+</header>
+
+
+<div class="stats">
+
+    <div class="stat">
+
+        Toplam Başvuru
+
+        <strong id="totalApplications">
+            0
+        </strong>
+
+    </div>
+
+</div>
+
+
+<div class="search">
+
+    <input
+        type="text"
+        id="searchInput"
+        placeholder="Ad, şehir veya başvuru numarası ara..."
+    >
+
+</div>
+
+
+<div
+    class="container"
+    id="applications"
+></div>
+
+
+<!-- DETAY PENCERESİ -->
+
+<div
+    class="modal"
+    id="detailModal"
+>
+
+    <div class="modal-content">
+
+        <span
+            class="close"
+            onclick="closeModal()"
+        >
+            ×
+        </span>
+
+        <div id="detailContent"></div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+
+let applications =
+    JSON.parse(
+        localStorage.getItem("oyuncuBasvurulari")
+    ) || [];
+
+
+const applicationsDiv =
+    document.getElementById("applications");
+
+
+const totalApplications =
+    document.getElementById("totalApplications");
+
+
+const searchInput =
+    document.getElementById("searchInput");
+
+
+// SAYIYI GÖSTER
+
+function updateCount() {
+
+    totalApplications.textContent =
+        applications.length;
+}
+
+
+// BAŞVURULARI GÖSTER
+
+function displayApplications(list = applications) {
+
+    applicationsDiv.innerHTML = "";
+
+
+    if (list.length === 0) {
+
+        applicationsDiv.innerHTML = `
+
+            <div class="empty">
+
+                Başvuru bulunamadı.
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    list.forEach(application => {
+
+
+        const div =
+            document.createElement("div");
+
+
+        div.className =
+            "application";
+
+
+        div.innerHTML = `
+
+            ${
+                application.photo
+                ?
+                `<img
+                    src="${application.photo}"
+                    class="application-photo"
+                >`
+                :
+                ""
+            }
+
+
+            <div class="application-info">
+
+                <h2>
+                    ${application.name}
+                </h2>
+
+
+                <p>
+                    <strong>Başvuru No:</strong>
+                    ${application.id}
+                </p>
+
+
+                <p>
+                    <strong>Yaş:</strong>
+                    ${application.age}
+                </p>
+
+
+                <p>
+                    <strong>Şehir:</strong>
+                    ${application.city}
+                </p>
+
+
+                <p>
+                    <strong>Deneyim:</strong>
+                    ${application.experience}
+                </p>
+
+
+                <p>
+                    <strong>Tarih:</strong>
+                    ${application.date || ""}
+                </p>
+
+
+                <div class="buttons">
+
+                    <button
+                        class="detail-button"
+                        onclick="showDetails('${application.id}')"
+                    >
+                        Ayrıntıları Gör
+                    </button>
+
+
+                    <button
+                        class="delete-button"
+                        onclick="deleteApplication('${application.id}')"
+                    >
+                        Sil
+                    </button>
+
+                </div>
+
+            </div>
+
+        `;
+
+
+        applicationsDiv.appendChild(div);
+
+    });
+
+}
+
+
+// ARAMA
+
+searchInput.addEventListener(
+    "input",
+    function() {
+
+        const search =
+            this.value.toLowerCase();
+
+
+        const filtered =
+            applications.filter(application =>
+
+                application.name
+                    .toLowerCase()
+                    .includes(search)
+
+                ||
+
+                application.city
+                    .toLowerCase()
+                    .includes(search)
+
+                ||
+
+                application.id
+                    .toLowerCase()
+                    .includes(search)
+
+            );
+
+
+        displayApplications(filtered);
+
+    }
+);
+
+
+// AYRINTILAR
+
+function showDetails(id) {
+
+    const application =
+        applications.find(
+            item => item.id === id
+        );
+
+
+    if (!application) return;
+
+
+    const detailContent =
+        document.getElementById(
+            "detailContent"
+        );
+
+
+    detailContent.innerHTML = `
+
+        ${
+            application.photo
+            ?
+            `<img
+                src="${application.photo}"
+                class="detail-photo"
+            >`
+            :
+            ""
+        }
+
+
+        <h2>
+            ${application.name}
+        </h2>
+
+
+        <p>
+            <strong>Başvuru No:</strong>
+            ${application.id}
+        </p>
+
+
+        <p>
+            <strong>Doğum Tarihi:</strong>
+            ${application.birthDate}
+        </p>
+
+
+        <p>
+            <strong>Yaş:</strong>
+            ${application.age}
+        </p>
+
+
+        <p>
+            <strong>Şehir:</strong>
+            ${application.city}
+        </p>
+
+
+        <p>
+            <strong>Telefon:</strong>
+            ${application.phone}
+        </p>
+
+
+        <p>
+            <strong>E-posta:</strong>
+            ${application.email}
+        </p>
+
+
+        <p>
+            <strong>Cinsiyet:</strong>
+            ${application.gender}
+        </p>
+
+
+        <p>
+            <strong>Boy:</strong>
+            ${application.height}
+        </p>
+
+
+        <p>
+            <strong>Kilo:</strong>
+            ${application.weight}
+        </p>
+
+
+        <p>
+            <strong>Oyunculuk Deneyimi:</strong>
+            ${application.experience}
+        </p>
+
+
+        <p>
+            <strong>Kendini Tanıtma:</strong>
+        </p>
+
+
+        <p>
+            ${application.about}
+        </p>
+
+
+        <p>
+            <strong>Başvuru Tarihi:</strong>
+            ${application.date || ""}
+        </p>
+
+    `;
+
+
+    document.getElementById(
+        "detailModal"
+    ).style.display = "block";
+
+}
+
+
+// PENCEREYİ KAPAT
+
+function closeModal() {
+
+    document.getElementById(
+        "detailModal"
+    ).style.display = "none";
+
+}
+
+
+// BAŞVURU SİL
+
+function deleteApplication(id) {
+
+    const answer =
+        confirm(
+            "Bu başvuruyu silmek istediğinize emin misiniz?"
+        );
+
+
+    if (!answer) return;
+
+
+    applications =
+        applications.filter(
+            application =>
+                application.id !== id
+        );
+
+
+    localStorage.setItem(
+        "oyuncuBasvurulari",
+        JSON.stringify(applications)
+    );
+
+
+    updateCount();
+
+    displayApplications();
+
+}
+
+
+// BAŞLANGIÇ
+
+updateCount();
+
+displayApplications();
+
+</script>
+
+
+</body>
+
+</html>
